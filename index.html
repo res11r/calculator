@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculator</title>
+	<link href="style.css"  rel="stylesheet">
+</head>
+<body>
+
+<div id="main">
+	<p>
+	</p>
+	<div id="clear">
+	Clear
+	</div>
+	<div class="key" id="7">
+	7
+	</div>
+	<div class="key" id="8">
+	8
+	</div>
+	<div class="key" id="9">
+	9
+	</div>
+	<div class="key" id="/">
+	/
+	</div>
+	<div class="key" id="4">
+	4
+	</div>
+	<div class="key" id="5">
+	5
+	</div>
+	<div class="key" id="6">
+	6
+	</div>
+	<div class="key" id="*">
+	*
+	</div>
+	<div class="key" id="1">
+	1
+	</div>
+	<div class="key" id="2">
+	2
+	</div>
+	<div class="key" id="3">
+	3
+	</div>
+	<div class="key" id="-">
+	-
+	</div>
+	<div class="key" id="0">
+	0
+	</div>
+	<div class="key" id=".">
+	.
+	</div>
+	<div class="key" id="=">
+	=
+	</div>
+	<div class="key" id="+">
+	+
+	</div>
+	
+
+</div>
+
+<script>
+function add(num1,num2) {
+	return Math.round((num1 + num2)*10)/ 10;
+}
+function subtract(num1,num2) {
+	return Math.round((num1 - num2)*10)/ 10;
+}
+function multiply(num1,num2) {
+	return Math.round((num1 * num2)*10)/ 10;
+}
+function divide(num1,num2) {
+	return Math.round((num1 / num2)*10)/ 10; 
+}
+function number (char)
+{
+	return char.charCodeAt()>48 && char.charCodeAt()<57;
+}
+
+var clear = document.querySelector('#clear');
+var para = document.querySelector('p');
+var firstNum=[];
+var secondNum=[];
+var firstNumJoin;
+var secondNumJoin;
+var sum;
+var operator;
+var secondNumFiltered;
+
+const buttons = document.querySelectorAll('.key')
+buttons.forEach(function(key) {
+	key.addEventListener('click', function(e) {
+	
+		para.textContent += key.id;
+		if (key.id === '+' || key.id === '-'  || key.id === '*' || key.id === '/' ) {
+		firstNum = [];
+			for (i=0; i<para.textContent.length-1; i++) {
+				firstNum[i] = para.textContent[i];
+			}
+			firstNumJoin= Number(firstNum.join(''));
+			operator = key.id;
+		}
+		if ((firstNum.includes('+','-','*','/')) && (key.id === '+' || key.id === '-'  || key.id === '*' || key.id === '/' )) {
+			para.textContent = "Error";
+		}
+		if (key.id === '=') {
+			for (i=0; i<para.textContent.length-1; i++) {
+				secondNum[i] = para.textContent[i+1+para.textContent.indexOf(operator)];
+			}
+			
+		secondNumFiltered = secondNum.slice(0, secondNum.indexOf('='));
+			secondNumJoin= Number(secondNumFiltered.join(''));
+
+		if (operator === '/' && secondNumJoin === 0) {
+	para.textContent = "Error";
+} else {
+		 operate(firstNumJoin,secondNumJoin,operator);
+		 }
+		}
+		
+	})
+		
+})
+clear.addEventListener('click', function(e) {
+	para.textContent = '';
+	firstNum = [];
+	secondNum = [];
+})
+
+
+ function operate (num1,num2,operator) {
+ 
+	if (operator === '+')  para.textContent = add(num1,num2);
+	else if (operator === '-') para.textContent = subtract(num1,num2);
+	else if (operator === '*') para.textContent = multiply(num1,num2);
+	else if (operator === '/')  para.textContent = divide(num1,num2);
+}
+</script>
+</body>
+</html>
+
